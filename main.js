@@ -38,3 +38,4 @@ async function loadArticles() {
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(loadArticles, 5000);
 });
+
