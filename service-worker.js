@@ -38,9 +38,16 @@ self.addEventListener('activate', event => {
     // on récupère le nom de l'ancien cache
     let oldVersion = cacheVersion - 1
     event.waitUntil(
-        // on le détruit
-        caches.delete('news-web-v' + oldVersion).then(() => {
-        console.log('Cache supprimé : news-web-v' + oldVersion);
+        // on vérifie si il existe
+        caches.has('news-web-v' + oldVersion)
+        .then(exists => {
+            //si il existe
+            if(exists) {
+                // on le détruit
+                caches.delete('news-web-v' + oldVersion).then(() => {
+                console.log('Cache supprimé : news-web-v' + oldVersion)
+                })
+            }
       })
     )
     // le sw prend contrôle de toutes les page web directement sans rechargement
