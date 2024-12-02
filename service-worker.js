@@ -1,20 +1,62 @@
 const version = 1.01
 
-// installation du service worker (la première fois)
+//add mise en cache
+const cacheVersion = 1
+const CACHE_NAME = 'news-web-v' + cacheVersion //nom du cache
+//liste des éléments à mettre en cache
+const urlsToCache = [
+    '/',
+    '/index.html',
+    '/images/Designer.png',
+    '/manifest.json',
+    '/main.js',
+    '/style.css',
+    'https://startechs-2024-default-rtdb.europe-west1.firebasedatabase.app/blog.json',
+    '/icons/192x192.png',
+    '/icons/512x512.png',
+    '/images/telecharger.png',
+    '/icons/apple-touch-icon.png',
+    '/icons/favicon.ico',
+    '/images/telecharger2.png',
+    '/data.json'
+];
+
+// installation du serviceworker
 self.addEventListener('install', event => {
     event.waitUntil(
-        console.log('SW installé' + version)
-    )
-    //on passe l'attente
+        //on ouvre le cache
+        caches.open(CACHE_NAME)
+            // on y met tout
+            .then(cache => cache.addAll(urlsToCache))
+    );
+    //on force l'activation du sw
     return self.skipWaiting()
 });
 
-// activation du service-worker (à chaque fois)
-self.addEventListener('activate', e => {
-    console.log('Activate SW version ' + version)
-    // ???
+//À l'activation
+self.addEventListener('activate', event => {
+    // on récupère le nom de l'ancien cache
+    let oldVersion = cacheVersion - 1
+    event.waitUntil(
+        // on le détruit
+        caches.delete('news-web-v' + oldVersion).then(() => {
+        console.log('Cache supprimé : news-web-v' + oldVersion);
+      })
+    )
+    // le sw prend contrôle de toutes les page web directement sans rechargement
     return self.clients.claim()
-})
+  })
+  
+// lors d'une requête, on l'intercepte
+self.addEventListener('fetch', event => {
+    event.respondWith(
+        // si la ressource est dans le cache
+        caches.match(event.request)
+        //on l'envoie direct sinon on laisse passer la requête sur le web
+            .then(response => response || fetch(event.request))
+    );
+});
+
 
 
 //add push notifications
