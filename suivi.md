@@ -9,15 +9,26 @@
 
 ## 3. Install
 - Ajout du manifest
-- Ajout des icônes
+- Ajout des icônes & screenshots
 - Ajout des balises dans le head
 
 ## 4. Install-btn
-- AJout du bouton dans le HTML
-- Ajout du script
-- Add install.js
+- Ajout du bouton dans le HTML
+- Add install.js in HTML
 
-## 5. SW-1 : Notifications
-- Add register-sw.js
-- Add service-orker.js
-- Add notifications.js
+## 5. sw-1 : Création SW
+- Add register-sw.js in HTML
+- Add service-worker.js
+
+## 6. sw-2 : Notifications
+- Add notifications.js in HTML
+- Add code in SW
+
+## 7. sw-3 : Ajout mise en cache dans SW
+- Edit sw
+
+## 8. sw-4 : Network first for API
+- Edit sw
+
+## 9. sw-5 : Workbox ?
+- Edit sw
